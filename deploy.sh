@@ -18,6 +18,6 @@ echo "Removing existing container (if any)..."
 docker rm skylance || true
 
 echo "Starting new container..."
-docker run --env-file /root/.env -d --name skylance -p 80:8000 yourdockerhubusername/skylance-ml:latest
+docker run --env-file /root/.env -d --name skylance -p 80:8000 tallmelon/skylance-ml:latest
 
 echo "Deployment completed!"
