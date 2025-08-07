@@ -1,0 +1,50 @@
+name: CI/CD Deploy to DO
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and Push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/skylance-ml:latest
+
+    - name: Copy deploy script to droplet
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.DROPLET_IP }}
+        username: ${{ secrets.DROPLET_USER }}
+        key: ${{ secrets.DROPLET_SSH_KEY }}
+        source: ./deploy.sh
+        target: /root/skylance
+
+    - name: SSH and Deploy
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.DROPLET_IP }}
+        username: ${{ secrets.DROPLET_USER }}
+        key: ${{ secrets.DROPLET_SSH_KEY }}
+        script: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/skylance-ml:latest
+          docker stop skylance || true
+          docker rm skylance || true
+          docker run --env-file /root/.env -d --name skylance -p 80:8000 ${{ secrets.DOCKERHUB_USERNAME }}/skylance-ml:latest
