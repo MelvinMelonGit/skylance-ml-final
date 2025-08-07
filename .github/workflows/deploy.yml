@@ -35,7 +35,7 @@ jobs:
         username: ${{ secrets.DROPLET_USER }}
         key: ${{ secrets.DROPLET_SSH_KEY }}
         source: ./deploy.sh
-        target: /root/skylance
+        target: /root
 
     - name: SSH and Deploy
       uses: appleboy/ssh-action@v1.0.3
