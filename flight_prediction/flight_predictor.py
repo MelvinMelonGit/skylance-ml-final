@@ -41,7 +41,7 @@ def fetch_features(engine, flight_id: int = None) -> pd.DataFrame:
       DAYOFWEEK(fd.DepartureTime) - 1  AS Departure_Weekday,
       HOUR(fd.DepartureTime)           AS Departure_Hour
     FROM FlightDetails fd
-    LEFT JOIN FlightBbookingDetails fbd      ON fbd.FlightDetailId = fd.Id
+    LEFT JOIN FlightBookingDetails fbd      ON fbd.FlightDetailId = fd.Id
     JOIN Aircraft ac                   ON ac.Id  = fd.AircraftId
     JOIN Airports o                    ON o.Id   = fd.OriginAirportId
     JOIN Airports d                    ON d.Id   = fd.DestinationAirportId
@@ -78,7 +78,7 @@ def predict_and_write_back(engine, session, pipeline, df: pd.DataFrame):
     preds = [round(p * 100, 2) for p in raw_preds]
 
     meta   = MetaData()
-    fd_tbl = Table("flightdetails", meta, autoload_with=engine)
+    fd_tbl = Table("FlightDetails", meta, autoload_with=engine)
 
     for flight_id, pred in zip(df["FlightID"], preds):
         stmt = (
