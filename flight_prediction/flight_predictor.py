@@ -19,7 +19,8 @@ def get_engine_and_session():
     Session = sessionmaker(bind=engine)
     return engine, Session()
 
-def load_pipeline(path="flight_no_show_pipeline.pkl"):
+def load_pipeline():
+    path = os.path.join(os.path.dirname(__file__), 'flight_no_show_pipeline.pkl')
     with open(path, "rb") as f:
         return pickle.load(f)
 

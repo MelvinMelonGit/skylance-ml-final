@@ -26,7 +26,8 @@ def get_engine_and_session():
     return engine, Session()
 
 # 3) Create load pipeline path
-def load_pipeline(path="rf_pipeline.pkl"):
+def load_pipeline():
+    path = os.path.join(os.path.dirname(__file__), 'rf_pipeline.pkl')
     with open(path, "rb") as f:
         return pickle.load(f)
     
