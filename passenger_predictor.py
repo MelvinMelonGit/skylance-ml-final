@@ -51,13 +51,13 @@ def fetch_features(engine, booking_id:str = None) -> pd.DataFrame:
       MONTH(fd.DepartureTime)     AS Departure_Month,
       fbd.Fareamount    AS Price,
       fbd.BaggageAllowance
-    FROM flightbookingdetails fbd
-    JOIN flightdetails    fd ON fd.Id = fbd.FlightDetailId
-    JOIN aircraft         ac ON ac.Id = fd.AircraftId
-    JOIN airports         o  ON o.Id  = fd.OriginAirportId
-    JOIN airports         d  ON d.Id  = fd.DestinationAirportId
-    JOIN bookingdetails   bd ON bd.Id = fbd.BookingDetailId
-    JOIN appusers         au ON au.Id = bd.AppUserId
+    FROM FlightBookingDetails fbd
+    JOIN FlightDetails    fd ON fd.Id = fbd.FlightDetailId
+    JOIN Aircraft         ac ON ac.Id = fd.AircraftId
+    JOIN Airports         o  ON o.Id  = fd.OriginAirportId
+    JOIN Airports         d  ON d.Id  = fd.DestinationAirportId
+    JOIN BookingDetails   bd ON bd.Id = fbd.BookingDetailId
+    JOIN AppUsers         au ON au.Id = bd.AppUserId
     WHERE fbd.Prediction IS NULL
         AND fbd.Id = %s
     """
