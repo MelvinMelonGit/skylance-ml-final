@@ -9,7 +9,7 @@ import os
 from config import DB_URL
 
 from fastapi import FastAPI, HTTPException
-from passenger_predictor.passenger_predictor import get_engine_and_session, load_pipeline, fetch_features, predict_and_write_back
+from .passenger_predictor import get_engine_and_session, load_pipeline, fetch_features, predict_and_write_back
 
 app = FastAPI()
 engine, session = get_engine_and_session()
