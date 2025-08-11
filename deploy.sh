@@ -9,7 +9,7 @@ mkdir -p /root/skylance
 cd /root/skylance
 
 echo "Pulling latest Docker image..."
-docker pull yourdockerhubusername/skylance-ml:latest
+docker pull tallmelon/skylance-ml:latest
 
 echo "Stopping existing container (if any)..."
 docker stop skylance || true
