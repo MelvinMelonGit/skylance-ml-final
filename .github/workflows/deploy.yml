@@ -27,6 +27,7 @@ jobs:
         context: .
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/skylance-ml:latest
+        platforms: linux/amd64,linux/arm64
 
     - name: Copy deploy script to droplet
       uses: appleboy/scp-action@v0.1.4
